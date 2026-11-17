@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171326">
+<title>Bora sair comigo? 💘</title>
+<style>
+:root{color-scheme:dark;--bg:#11101b;--card:#201c30;--pink:#ff5f9e;--purple:#9b83ff;--muted:#b9b1ca}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;background:radial-gradient(ellipse at 15% 10%,#442344 0,transparent 42%),radial-gradient(ellipse at 90% 85%,#242b59 0,transparent 45%),var(--bg);display:grid;place-items:center;padding:24px}
+main{width:min(100%,680px);background:#1b1828ed;border:1px solid #ffffff20;border-radius:28px;padding:clamp(24px,5vw,48px);box-shadow:0 25px 90px #0008;text-align:center}
+.tag{color:#ff9bc2;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;margin:16px 0}p{color:var(--muted);line-height:1.6}
+.actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:32px 0 12px;min-height:58px}
+button,.btn{border:0;border-radius:14px;padding:15px 25px;font-size:1rem;font-weight:800;cursor:pointer;transition:transform .15s,filter .15s}
+button:hover,.btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.yes{background:linear-gradient(135deg,var(--pink),#ff8d7c);color:#24111d;box-shadow:0 8px 25px #ff5f9e44}
+.no{background:#383347;color:#eee;position:relative}
+.hidden{display:none!important}.step{text-align:left;margin-top:28px}.step h2{text-align:center;font-size:1.5rem}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:20px 0}
+.option{background:#29253b;border:1px solid #ffffff20;color:white;text-align:left;padding:15px;border-radius:13px}
+.option.selected{border:2px solid var(--pink);background:#49273e}
+label{display:block;font-weight:700;margin:16px 0 8px}
+input,select{width:100%;background:#100e19;color:white;border:1px solid #ffffff30;border-radius:12px;padding:14px;font-size:1rem}
+.field{margin:16px 0}.submit{width:100%;margin-top:20px;background:linear-gradient(135deg,var(--pink),#ff9a82);color:#25121c}
+.note{font-size:.82rem;color:#928aa5;margin-top:22px}.heart{font-size:2rem}
+#status{margin-top:16px;color:#ffb5d0;text-align:center;overflow-wrap:anywhere}
+@media(max-width:480px){main{padding:25px 18px}.actions{gap:10px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="tag">um convite quase irrecusável</div>
+  <div class="heart">💌</div>
+  <section id="intro">
+    <h1>Bora sair comigo?</h1>
+    <p>Prometo boas conversas, alguma risada e histórias que talvez não devam ir para o LinkedIn.</p>
+    <div class="actions" id="arena">
+      <button class="yes" id="yesBtn">SIM! 💖</button>
+      <button class="no" id="noBtn">Não 🙃</button>
+    </div>
+    <p class="note">Dica: existe uma resposta estrategicamente mais fácil de selecionar.</p>
+  </section>
+
+  <section id="formSection" class="step hidden">
+    <h2>Sabia que você tinha bom gosto! 😏</h2>
+    <p style="text-align:center">Escolha nosso próximo capítulo:</p>
+    <div class="options" id="options">
+      <button class="option" type="button">🍕 Pizza e conversa</button>
+      <button class="option" type="button">🍻 Barzinho e cerveja</button>
+      <button class="option" type="button">🎸 Show ou música ao vivo</button>
+      <button class="option" type="button">🎬 Cinema</button>
+      <button class="option" type="button">🍔 Hambúrguer artesanal</button>
+      <button class="option" type="button">☕ Café e sobremesa</button>
+      <button class="option" type="button">🍣 Jantar japonês</button>
+      <button class="option" type="button">🎳 Boliche ou jogos</button>
+      <button class="option" type="button">🌳 Parque e caminhada</button>
+      <button class="option" type="button">🍷 Drinks em um lugar legal</button>
+      <button class="option" type="button">🕺 Dançar e sair à noite</button>
+      <button class="option" type="button">🎲 Surpresa: você escolhe!</button>
+    </div>
+    <div class="field">
+      <label for="day">Qual dia de novembro?</label>
+      <select id="day" required></select>
+    </div>
+    <div class="field">
+      <label for="time">Qual horário?</label>
+      <select id="time" required>
+        <option value="">Escolha um horário</option>
+        <option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option>
+        <option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option>
+        <option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="identity">Como posso te chamar? (nome ou @ do Instagram)</label>
+      <input id="identity" maxlength="80" placeholder="@seuusuario ou seu nome" required>
+    </div>
+    <button class="submit" id="sendBtn">Enviar meu convite 💌</button>
+    <div id="status" role="status"></div>
+    <p class="note">O Instagram não permite que este site identifique automaticamente a conta que está conectada. Seu @ é informado por você.</p>
+  </section>
+</main>
+<script>
+const yes=document.querySelector('#yesBtn'), no=document.querySelector('#noBtn'), arena=document.querySelector('#arena');
+function dodge(){
+  const rect=arena.getBoundingClientRect(), w=no.offsetWidth, h=no.offsetHeight;
+  const maxX=Math.max(0,rect.width-w), maxY=90;
+  no.style.position='relative';
+  no.style.transform='translate('+Math.round(Math.random()*maxX-maxX/2)+'px,'+Math.round(Math.random()*maxY-maxY/2)+'px)';
+}
+no.addEventListener('mouseenter',dodge);
+no.addEventListener('touchstart',e=>{e.preventDefault();dodge()},{passive:false});
+no.addEventListener('click',e=>{e.preventDefault();dodge()});
+yes.addEventListener('click',()=>{document.querySelector('#intro').classList.add('hidden');document.querySelector('#formSection').classList.remove('hidden')});
+const day=document.querySelector('#day');
+const now=new Date(), year=now.getFullYear(), month=now.getMonth();
+const monthName=new Intl.DateTimeFormat('pt-BR',{month:'long'}).format(now);
+document.querySelector('label[for="day"]').textContent='Qual dia de '+monthName+'?';
+const placeholder=new Option('Escolha um dia','');day.add(placeholder);
+for(let d=now.getDate();d<=new Date(year,month+1,0).getDate();d++){
+ const date=new Date(year,month,d);
+ day.add(new Option(new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'}).format(date),date.toLocaleDateString('pt-BR')));
+}
+let chosen='';
+document.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+ btn.classList.add('selected');chosen=btn.textContent.trim();
+}));
+document.querySelector('#sendBtn').addEventListener('click',()=>{
+ const who=document.querySelector('#identity').value.trim(), date=day.value, time=document.querySelector('#time').value;
+ const status=document.querySelector('#status');
+ if(!chosen||!date||!time||!who){status.textContent='Preencha seu nome/@, escolha o rolê, o dia e o horário.';return}
+ const subject=encodeURIComponent('Novo convite aceito! 💘');
+ const body=encodeURIComponent('A pessoa aceitou sair com você!\n\nNome / Instagram: '+who+'\nRolê escolhido: '+chosen+'\nDia: '+date+'\nHorário: '+time);
+ status.textContent='Abrindo seu aplicativo de e-mail para enviar a resposta…';
+ window.location.href='mailto:rmcordeiro@outlook.com?subject='+subject+'&body='+body;
+});
+</script>
+</body>
+</html>
